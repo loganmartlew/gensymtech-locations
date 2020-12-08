@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import Modal from 'react-modal';
-import { addLocation } from '../actions/locations';
-import uuid from 'react-uuid';
+import firebase from '../firebase';
 
 const AddLocationModal = props => {
-  const dispatch = useDispatch();
-
   const [location, setLocation] = useState({
     name: 'New Location',
     dimension: 0,
     portal: false,
     posO: { x: undefined, y: undefined },
     posN: { x: undefined, y: undefined },
-    id: uuid(),
   });
 
   const nameChange = e => {
@@ -82,29 +77,32 @@ const AddLocationModal = props => {
   };
 
   const submit = () => {
-    dispatch(addLocation(location));
-
-    setLocation({
-      name: 'New Location',
-      dimension: 0,
-      portal: false,
-      posO: { x: undefined, y: undefined },
-      posN: { x: undefined, y: undefined },
-      id: uuid(),
-    });
-
-    props.closeModal();
+    firebase
+      .firestore()
+      .collection('locations')
+      .add({
+        name: location.name,
+        dimension: location.dimension,
+        portal: location.portal,
+        posO: location.posO,
+        posN: location.posN,
+      })
+      .then(() => {
+        props.closeModal();
+      });
   };
 
   return (
     <Modal
+      className='locationModal'
+      id='AddModal'
       isOpen={props.modalIsOpen}
       onRequestClose={props.closeModal}
       appElement={document.getElementById('app')}
     >
-      <h2>Add Location</h2>
+      <h1>Add Location</h1>
       <form>
-        <label>
+        <label id='name'>
           Name:
           <input
             type='text'
@@ -113,7 +111,7 @@ const AddLocationModal = props => {
             onChange={nameChange}
           />
         </label>
-        <label>
+        <label id='dimension'>
           Dimension:
           <select
             name='dimension'
@@ -125,7 +123,7 @@ const AddLocationModal = props => {
             <option value={1}>End</option>
           </select>
         </label>
-        <label>
+        <label id='portal'>
           Portal:
           <input
             type='checkbox'
@@ -133,20 +131,20 @@ const AddLocationModal = props => {
             checked={location.portal}
           />
         </label>
-        <label>
+        <label id='coordsO'>
           Overworld Coordinates: X{' '}
           <input type='number' value={location.posO.x} onChange={xChangeO} />
           Z <input type='number' value={location.posO.y} onChange={yChangeO} />
         </label>
-        <label>
+        <label id='coordsN'>
           Nether Coordinates: X{' '}
           <input type='number' value={location.posN.x} onChange={xChangeN} />
           Z <input type='number' value={location.posN.y} onChange={yChangeN} />
         </label>
-        <button type='button' onClick={syncN}>
+        <button type='button' onClick={syncN} id='syncN'>
           Sync Nether Coordinates
         </button>
-        <button type='button' onClick={syncO}>
+        <button type='button' onClick={syncO} id='syncO'>
           Sync Overworld Coordinates
         </button>
       </form>

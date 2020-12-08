@@ -4,7 +4,7 @@ import portalImage from '../images/portal.svg';
 
 const LocationsListItem = ({ location }) => {
   return (
-    <div>
+    <div className='LocationsListItem'>
       <h3>
         {location.name}
         {location.portal ? (
@@ -29,8 +29,10 @@ const LocationsListItem = ({ location }) => {
       ) : (
         ''
       )}
-      <RemoveLocationButton id={location.id} />
-      <EditLocationButton id={location.id} />
+      <div className='locationButtons'>
+        <EditLocationButton location={location} />
+        <RemoveLocationButton id={location.id} />
+      </div>
     </div>
   );
 };

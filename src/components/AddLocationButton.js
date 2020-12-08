@@ -13,8 +13,8 @@ const AddLocationButton = () => {
   };
 
   return (
-    <div>
-      <button onClick={openModal}>Add Location</button>
+    <div className='AddLocationButton'>
+      <button onClick={openModal}>+</button>
       <AddLocationModal modalIsOpen={modalIsOpen} closeModal={closeModal} />
     </div>
   );

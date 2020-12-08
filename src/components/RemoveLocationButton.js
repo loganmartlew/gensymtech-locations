@@ -1,16 +1,15 @@
-import { useDispatch } from 'react-redux';
-import { removeLocation } from '../actions/locations';
+import firebase from '../firebase';
+import { CgClose } from 'react-icons/cg';
 
 const RemoveLocationButton = props => {
-  const dispatch = useDispatch();
-
   return (
     <button
+      className='removeButton'
       onClick={() => {
-        dispatch(removeLocation(props.id));
+        firebase.firestore().collection('locations').doc(props.id).delete();
       }}
     >
-      X
+      <CgClose />
     </button>
   );
 };

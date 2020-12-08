@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import Modal from 'react-modal';
-import { editLocation } from '../actions/locations';
+import firebase from '../firebase';
 
 const EditLocationModal = props => {
-  const state = useSelector(state => state);
-  const dispatch = useDispatch();
-
-  const [location, setLocation] = useState(
-    ...state.locations.filter(({ id }) => id === props.id)
-  );
+  const [location, setLocation] = useState(props.location);
 
   const nameChange = e => {
     setLocation({ ...location, name: e.target.value });
@@ -77,18 +71,31 @@ const EditLocationModal = props => {
   };
 
   const submit = () => {
-    dispatch(editLocation(location.id, location));
-
-    props.closeModal();
+    firebase
+      .firestore()
+      .collection('locations')
+      .doc(location.id)
+      .set({
+        name: location.name,
+        dimension: location.dimension,
+        portal: location.portal,
+        posO: location.posO,
+        posN: location.posN,
+      })
+      .then(() => {
+        props.closeModal();
+      });
   };
 
   return (
     <Modal
+      className='locationModal'
+      id='EditModal'
       isOpen={props.modalIsOpen}
       onRequestClose={props.closeModal}
       appElement={document.getElementById('app')}
     >
-      <h2>Edit Location</h2>
+      <h1>Edit Location</h1>
       <form>
         <label>
           Name:

@@ -1,13 +1,36 @@
+import { useState, useEffect } from 'react';
 import { Scatter } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 // eslint-disable-next-line no-unused-vars
 import * as Zoom from 'chartjs-plugin-zoom';
+import firebase from '../firebase';
 import getGroupedLocations from '../selectors/locations';
+
+const GetLocations = () => {
+  const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection('locations')
+      .onSnapshot(snapshot => {
+        const newLocations = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setLocations(newLocations);
+      });
+  }, []);
+
+  return locations;
+};
 
 const Map = () => {
   const state = useSelector(state => state);
+  const locations = GetLocations();
 
-  const groups = getGroupedLocations(state.locations);
+  const groups = getGroupedLocations(locations);
 
   const mode = state.filters.coordinateMode === 0 ? 'posO' : 'posN';
 
@@ -69,7 +92,7 @@ const Map = () => {
 
   const options = {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     scales: {
       xAxes: [
         {
@@ -116,19 +139,21 @@ const Map = () => {
       drag: false,
       mode: 'xy',
       rangeMin: {
-        x: -1000,
-        y: -1000,
+        x: -10000,
+        y: -10000,
       },
       rangeMax: {
-        x: 1000,
-        y: 1000,
+        x: 10000,
+        y: 10000,
       },
     },
   };
-
+  // style={{ width: '750px', height: '750px' }}    height={750} width={750}
   return (
-    <div style={{ width: '750px', height: '750px' }}>
-      <Scatter height={750} width={750} data={data} options={options} />
+    <div className='Map' id='map'>
+      <div className='mapWrapper'>
+        <Scatter data={data} options={options} />
+      </div>
     </div>
   );
 };

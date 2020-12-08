@@ -1,4 +1,5 @@
 import React from 'react';
+import { AiFillEdit } from 'react-icons/ai';
 import EditLocationModal from './EditLocationModal';
 
 const EditLocationButton = props => {
@@ -14,11 +15,13 @@ const EditLocationButton = props => {
 
   return (
     <div>
-      <button onClick={openModal}>Edit Location</button>
+      <button onClick={openModal} className='editButton'>
+        <AiFillEdit />
+      </button>
       <EditLocationModal
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
-        id={props.id}
+        location={props.location}
       />
     </div>
   );

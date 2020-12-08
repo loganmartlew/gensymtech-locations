@@ -1,22 +1,60 @@
-import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import firebase from '../firebase';
+//import { useCollectionData } from 'react-firebase-hooks/firestore';
 import LocationsListItem from './LocationsListItem';
 import AddLocationButton from './AddLocationButton';
 
+const GetLocations = () => {
+  const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    firebase
+      .firestore()
+      .collection('locations')
+      .onSnapshot(snapshot => {
+        const newLocations = snapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setLocations(newLocations);
+      });
+  }, []);
+
+  return locations;
+};
+
 const LocationsList = () => {
-  const state = useSelector(state => state);
+  const [signedIn, setSignedIn] = useState(false);
+
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  const signIn = () => {
+    firebase
+      .auth()
+      .signInWithPopup(provider)
+      .then(result => {
+        if (result.user) {
+          setSignedIn(true);
+        }
+      });
+  };
+
+  const locations = GetLocations();
 
   let locationsList = [];
 
-  for (let i = 0; i < state.locations.length; i++) {
-    locationsList.push(
-      <LocationsListItem location={state.locations[i]} key={i} />
-    );
+  for (let i = 0; i < locations.length; i++) {
+    locationsList.push(<LocationsListItem location={locations[i]} key={i} />);
   }
 
   return (
-    <div>
+    <div className='LocationsList'>
       <h1>Locations</h1>
-      {locationsList}
+      <button onClick={signIn} hidden={signedIn} id='signIn'>
+        Sign In With Google
+      </button>
+      <div className='list'>{locationsList}</div>
       <AddLocationButton />
     </div>
   );

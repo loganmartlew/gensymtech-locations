@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
 import { setMode, setVisible } from '../actions/filters';
 
 const MapOptions = () => {
@@ -16,7 +17,7 @@ const MapOptions = () => {
   ];
 
   const modeChange = e => {
-    dispatch(setMode(e.target.value));
+    dispatch(setMode(parseInt(e.target.value)));
   };
 
   const visibleChange = e => {
@@ -24,7 +25,7 @@ const MapOptions = () => {
   };
 
   return (
-    <div>
+    <div className='MapOptions'>
       <form>
         <h2>Coordinate Mode</h2>
         <label>
@@ -48,14 +49,16 @@ const MapOptions = () => {
           />
         </label>
       </form>
-      <div>
+      <div className='visibleContainer'>
         <h2>Visible Dimensions</h2>
         <Select
           isMulti={true}
           isSearchable={false}
+          components={makeAnimated()}
           options={options}
           defaultValue={visible}
           onChange={visibleChange}
+          className='Select'
         />
       </div>
     </div>

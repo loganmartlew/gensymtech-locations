@@ -1,0 +1,240 @@
+$bg-main: #343434;
+$bg-secondary: #5f5f5f;
+$text-color: #eaeaea;
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+
+body {
+  background-color: $bg-main;
+}
+
+button {
+  cursor: pointer;
+}
+
+.App {
+  display: grid;
+  width: 100%;
+  height: 100vh;
+  grid-template-columns: repeat(12, 2fr);
+  grid-template-rows: repeat(10, 1fr);
+  grid-gap: 2em;
+  padding: 26px;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  color: $text-color;
+}
+
+.LocationsList {
+  display: flex;
+  flex-direction: column;
+  grid-column-start: 1;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 11;
+  padding: 14px;
+  background-color: $bg-secondary;
+
+  h1 {
+    margin-bottom: 10px;
+  }
+
+  #signIn {
+    height: 30px;
+    width: 150px;
+    margin-bottom: 10px;
+    color: $bg-main;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    font-weight: 600;
+  }
+
+  .list {
+    .LocationsListItem {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      min-height: 60px;
+      margin-bottom: 10px;
+      padding: 10px;
+      background-color: $bg-main;
+
+      img {
+        margin: 0 5px;
+      }
+
+      .locationButtons {
+        display: flex;
+        justify-content: space-between;
+
+        & > * {
+          margin: 0 5px;
+        }
+
+        .editButton {
+          background: none;
+          border: none;
+          color: $text-color;
+          font-size: 1.2rem;
+          transition: transform 70ms;
+
+          &:hover {
+            transform: scale(1.4) translateY(5%);
+          }
+        }
+
+        .removeButton {
+          background: none;
+          border: none;
+          color: $text-color;
+          font-size: 1.2rem;
+          transition: transform 70ms;
+
+          &:hover {
+            transform: scale(1.4) translateY(5%);
+          }
+        }
+      }
+    }
+  }
+
+  .AddLocationButton {
+    button {
+      width: 100%;
+      height: 60px;
+      background-color: rgba($color: $bg-main, $alpha: 0.3);
+      border: 2px dashed $bg-main;
+      color: $text-color;
+      font-size: 40px;
+      transition: background-color 70ms;
+
+      &:hover {
+        background-color: rgba($color: $bg-main, $alpha: 0.5);
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.MapOptions {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  grid-column-start: 5;
+  grid-column-end: 13;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  padding: 10px;
+  background-color: $bg-secondary;
+
+  form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    label {
+      margin-left: 20px;
+
+      input {
+        margin-left: 5px;
+      }
+    }
+  }
+
+  .visibleContainer {
+    h2 {
+      margin-bottom: 5px;
+    }
+
+    .Select {
+      color: $bg-main;
+      font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    }
+  }
+}
+
+.Map {
+  grid-column-start: 5;
+  grid-column-end: 13;
+  grid-row-start: 3;
+  grid-row-end: 11;
+  padding: 10px;
+  background-color: #dfdfdf;
+
+  .mapWrapper {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.ReactModal__Overlay {
+  margin: 20px;
+  background-color: $bg-secondary !important;
+}
+
+.locationModal {
+  color: $text-color;
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+
+  button {
+    margin-right: 10px;
+    padding: 10px;
+    background-color: $bg-main;
+    color: $text-color;
+    border: 2px solid $bg-secondary;
+    transition: all 70ms;
+
+    &:hover {
+      background-color: $bg-secondary;
+      border: 2px solid $bg-main;
+    }
+  }
+
+  form {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 30%;
+    font-size: 1.3rem;
+
+    label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+
+      input {
+        margin-left: 5px;
+        margin-right: 5px;
+        padding: 5px;
+        background-color: $bg-secondary;
+        border: solid 2px $bg-main;
+        color: $text-color;
+      }
+
+      &#coordsO input {
+        width: 60px;
+      }
+
+      &#coordsN input {
+        width: 60px;
+      }
+
+      select {
+        margin-left: 5px;
+        padding: 5px;
+        background-color: $bg-secondary;
+        border: solid 2px $bg-main;
+        color: $text-color;
+        cursor: pointer;
+      }
+    }
+  }
+}
