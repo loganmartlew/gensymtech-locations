@@ -3,6 +3,7 @@ import firebase from '../firebase';
 //import { useCollectionData } from 'react-firebase-hooks/firestore';
 import LocationsListItem from './LocationsListItem';
 import AddLocationButton from './AddLocationButton';
+import logo from '../images/logo.svg';
 
 const GetLocations = () => {
   const [locations, setLocations] = useState([]);
@@ -50,10 +51,23 @@ const LocationsList = () => {
 
   return (
     <div className='LocationsList'>
-      <h1>Locations</h1>
-      <button onClick={signIn} hidden={signedIn} id='signIn'>
-        Sign In With Google
-      </button>
+      <div className='locationListHeader'>
+        <img
+          className='logo'
+          src={logo}
+          alt='Gensym Tech'
+          onClick={() => {
+            // eslint-disable-next-line no-restricted-globals
+            location.href = 'https://locations.gensymtech.xyz/';
+          }}
+        />
+        <div className='headerTitle'>
+          <h1>Locations</h1>
+          <button onClick={signIn} hidden={signedIn} id='signIn'>
+            Sign In With Google
+          </button>
+        </div>
+      </div>
       <div className='list'>{locationsList}</div>
       <AddLocationButton />
     </div>

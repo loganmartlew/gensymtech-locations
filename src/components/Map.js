@@ -148,7 +148,7 @@ const Map = () => {
       },
     },
   };
-  // style={{ width: '750px', height: '750px' }}    height={750} width={750}
+
   return (
     <div className='Map' id='map'>
       <div className='mapWrapper'>

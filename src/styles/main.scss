@@ -41,17 +41,31 @@ button {
   padding: 14px;
   background-color: $bg-secondary;
 
-  h1 {
-    margin-bottom: 10px;
-  }
+  .locationListHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
 
-  #signIn {
-    height: 30px;
-    width: 150px;
-    margin-bottom: 10px;
-    color: $bg-main;
-    font-family: 'Roboto', Arial, Helvetica, sans-serif;
-    font-weight: 600;
+    .logo {
+      height: 75px;
+      margin-right: 20px;
+      cursor: pointer;
+    }
+
+    .headerTitle {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+
+      #signIn {
+        height: 30px;
+        width: 150px;
+        color: $bg-main;
+        font-family: 'Roboto', Arial, Helvetica, sans-serif;
+        font-weight: 600;
+      }
+    }
   }
 
   .list {

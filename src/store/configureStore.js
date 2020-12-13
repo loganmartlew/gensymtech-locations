@@ -1,6 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-//import locationsReducer from '../reducers/locations';
 import filtersReducer from '../reducers/filters';
 import thunk from 'redux-thunk';
 
